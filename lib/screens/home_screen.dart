@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../services/firestore_service.dart';
 import '../models/quiz_model.dart';
+import '../services/firestore_service.dart';
+import 'section_list_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -17,13 +18,11 @@ class HomeScreen extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
-
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('Chưa có đề thi nào.'));
           }
 
           final quizzes = snapshot.data!;
-
           return ListView.builder(
             itemCount: quizzes.length,
             itemBuilder: (context, index) {
@@ -33,10 +32,12 @@ class HomeScreen extends StatelessWidget {
                 subtitle: Text(quiz.description),
                 leading: const Icon(Icons.assignment),
                 onTap: () {
-                  // TODO: Điều hướng sang màn hình SectionListScreen
-                  // Navigator.push(context, MaterialPageRoute(
-                  //   builder: (_) => SectionListScreen(quiz: quiz),
-                  // ));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => SectionListScreen(quiz: quiz),
+                    ),
+                  );
                 },
               );
             },

@@ -1,22 +1,30 @@
 class Question {
   final String id;
-  final String question;
+  final String text;
   final List<String> options;
   final int correctIndex;
 
   Question({
     required this.id,
-    required this.question,
+    required this.text,
     required this.options,
     required this.correctIndex,
   });
 
-  factory Question.fromMap(Map<String, dynamic> data, String id) {
+  factory Question.fromMap(Map<String, dynamic> data, String documentId) {
     return Question(
-      id: id,
-      question: data['question'] ?? '',
+      id: documentId,
+      text: data['text'] ?? data['question'] ?? '', // ✅ đọc cả 2 key
       options: List<String>.from(data['options'] ?? []),
       correctIndex: data['correctIndex'] ?? 0,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'text': text,
+      'options': options,
+      'correctIndex': correctIndex,
+    };
   }
 }

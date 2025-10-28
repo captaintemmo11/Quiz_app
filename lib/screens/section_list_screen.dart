@@ -1,58 +1,62 @@
 import 'package:flutter/material.dart';
-import '../models/section_model.dart';
-import '../models/user_progress_model.dart';
+import '../models/quiz_model.dart';
+import '../services/firestore_service.dart';
+import 'quiz_screen.dart'; // 👉 nhớ import màn hình Quiz
 
-class SectionListScreen extends StatelessWidget {
-  final List<Section> sections;
-  final Map<String, SectionProgress> progress;
-  final Function(Section) onStartSection;
-  final Function(Section) onViewResult;
-  final Function(Section) onRetry;
+class SectionListScreen extends StatefulWidget {
+  final Quiz quiz;
+  const SectionListScreen({super.key, required this.quiz});
 
-  const SectionListScreen({
-    super.key,
-    required this.sections,
-    required this.progress,
-    required this.onStartSection,
-    required this.onViewResult,
-    required this.onRetry,
-  });
+  @override
+  State<SectionListScreen> createState() => _SectionListScreenState();
+}
+
+class _SectionListScreenState extends State<SectionListScreen> {
+  final firestore = FirestoreService();
+  late Future<List<String>> sectionsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    sectionsFuture = firestore.getSections(widget.quiz.id);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Các phần thi")),
-      body: ListView.builder(
-        itemCount: sections.length,
-        itemBuilder: (context, index) {
-          final section = sections[index];
-          final sectionProgress = progress[section.id];
-          final completed = sectionProgress?.completed ?? false;
+      appBar: AppBar(title: Text(widget.quiz.title)),
+      body: FutureBuilder<List<String>>(
+        future: sectionsFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('Chưa có phần nào.'));
+          }
 
-          return Card(
-            margin: const EdgeInsets.all(8),
-            child: ListTile(
-              title: Text(section.title),
-              subtitle: completed
-                  ? Text("Hoàn thành: ${sectionProgress!.correct}/${sectionProgress.total} đúng")
-                  : const Text("Chưa làm"),
-              trailing: completed
-                  ? Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  ElevatedButton(
-                      onPressed: () => onViewResult(section),
-                      child: const Text("Xem kết quả")),
-                  const SizedBox(width: 8),
-                  OutlinedButton(
-                      onPressed: () => onRetry(section),
-                      child: const Text("Làm lại")),
-                ],
-              )
-                  : ElevatedButton(
-                  onPressed: () => onStartSection(section),
-                  child: const Text("Làm bài")),
-            ),
+          final sections = snapshot.data!;
+          return ListView.builder(
+            itemCount: sections.length,
+            itemBuilder: (context, index) {
+              final section = sections[index];
+              return ListTile(
+                title: Text('Phần ${index + 1}: $section'),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () {
+                  print('DEBUG: Tapped section "$section"');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => QuizScreen(
+                        quizId: widget.quiz.id,
+                        sectionId: section,
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
           );
         },
       ),

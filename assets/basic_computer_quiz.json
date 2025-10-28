@@ -1,0 +1,141 @@
+{
+  "title": "Đề thi Tin học cơ bản",
+  "description": "Bộ 20 câu hỏi trắc nghiệm kiểm tra kiến thức tin học cơ bản",
+  "sections": {
+    "section_1": {
+      "name": "Phần 1: Câu hỏi tổng hợp",
+      "questions": [
+        {
+          "question": "Thiết bị nào sau đây là thiết bị nhập?",
+          "options": ["Màn hình", "Chuột", "Máy in", "Máy chiếu"],
+          "correctIndex": 1
+        },
+        {
+          "question": "Hệ điều hành nào sau đây là của Microsoft?",
+          "options": ["macOS", "Linux", "Windows", "Android"],
+          "correctIndex": 2
+        },
+        {
+          "question": "Phần mềm nào dùng để soạn thảo văn bản?",
+          "options": ["Excel", "Word", "PowerPoint", "Paint"],
+          "correctIndex": 1
+        },
+        {
+          "question": "RAM là viết tắt của cụm từ nào?",
+          "options": [
+            "Read Access Memory",
+            "Random Access Memory",
+            "Run Active Memory",
+            "Rapid Action Memory"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Thiết bị nào dùng để lưu trữ dữ liệu lâu dài?",
+          "options": ["RAM", "Cache", "Ổ cứng", "ROM"],
+          "correctIndex": 2
+        },
+        {
+          "question": "Tốc độ của CPU được đo bằng đơn vị nào?",
+          "options": ["GB", "GHz", "MB", "MHz"],
+          "correctIndex": 1
+        },
+        {
+          "question": "Phần mềm diệt virus là loại phần mềm gì?",
+          "options": ["Ứng dụng", "Hệ thống", "Tiện ích", "Lập trình"],
+          "correctIndex": 2
+        },
+        {
+          "question": "Phím tắt để sao chép văn bản là gì?",
+          "options": ["Ctrl + X", "Ctrl + C", "Ctrl + V", "Ctrl + Z"],
+          "correctIndex": 1
+        },
+        {
+          "question": "Trong Excel, ký hiệu của phép nhân là gì?",
+          "options": ["x", "*", "×", "/"],
+          "correctIndex": 1
+        },
+        {
+          "question": "Thiết bị nào là phần cứng?",
+          "options": ["Windows", "CPU", "Word", "Excel"],
+          "correctIndex": 1
+        },
+        {
+          "question": "Phần mềm trình duyệt web là gì?",
+          "options": ["Chrome", "Word", "Excel", "Photoshop"],
+          "correctIndex": 0
+        },
+        {
+          "question": "Trong máy tính, bit là gì?",
+          "options": [
+            "Đơn vị lưu trữ nhỏ nhất",
+            "Đơn vị tốc độ xử lý",
+            "Đơn vị hiển thị màu",
+            "Đơn vị tần số"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "question": "Ổ đĩa C: thường chứa gì?",
+          "options": [
+            "Tài liệu người dùng",
+            "Hệ điều hành",
+            "Phần mềm độc hại",
+            "File tạm"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "File có phần mở rộng .docx thuộc phần mềm nào?",
+          "options": ["Word", "Excel", "PowerPoint", "Access"],
+          "correctIndex": 0
+        },
+        {
+          "question": "Phím tắt để hoàn tác thao tác vừa thực hiện?",
+          "options": ["Ctrl + C", "Ctrl + Z", "Ctrl + Y", "Ctrl + V"],
+          "correctIndex": 1
+        },
+        {
+          "question": "Internet là gì?",
+          "options": [
+            "Mạng máy tính nội bộ",
+            "Hệ thống mạng toàn cầu",
+            "Thiết bị mạng",
+            "Phần mềm duyệt web"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "question": "Thiết bị nào sau đây là thiết bị xuất?",
+          "options": ["Chuột", "Bàn phím", "Màn hình", "Ổ đĩa"],
+          "correctIndex": 2
+        },
+        {
+          "question": "Tệp tin có phần mở rộng .jpg thường là loại tệp gì?",
+          "options": ["Văn bản", "Hình ảnh", "Âm thanh", "Video"],
+          "correctIndex": 1
+        },
+        {
+          "question": "Thao tác 'cut' nghĩa là gì?",
+          "options": [
+            "Sao chép dữ liệu",
+            "Xóa dữ liệu",
+            "Di chuyển dữ liệu",
+            "Hoàn tác dữ liệu"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "question": "Trong máy tính, BIOS có chức năng gì?",
+          "options": [
+            "Khởi động máy tính",
+            "Soạn thảo văn bản",
+            "Tạo bảng tính",
+            "Kết nối Internet"
+          ],
+          "correctIndex": 0
+        }
+      ]
+    }
+  }
+}

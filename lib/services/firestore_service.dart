@@ -1,43 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/quiz_model.dart';
-import '../models/section_model.dart';
 import '../models/question_model.dart';
 import '../models/user_progress_model.dart';
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
+  /// 🔹 Lấy danh sách tất cả các đề thi
   Future<List<Quiz>> getAllQuizzes() async {
-    final quizSnapshot = await _db.collection('quizzes').get();
-    List<Quiz> quizzes = [];
-
-    for (var doc in quizSnapshot.docs) {
-      final sections = await getSections(doc.id);
-      quizzes.add(
-        Quiz.fromMap(doc.data(), doc.id, sections),
-      );
-    }
-
-    return quizzes;
+    final snapshot = await _db.collection('quizzes').get();
+    return snapshot.docs.map((doc) {
+      return Quiz.fromMap(doc.data(), doc.id, []);
+    }).toList();
   }
 
-  Future<List<Section>> getSections(String quizId) async {
-    final sectionSnapshot =
-    await _db.collection('quizzes').doc(quizId).collection('sections').orderBy('order').get();
-    List<Section> sections = [];
+  /// 🔹 Lấy danh sách section (phần thi) của 1 đề
+  Future<List<String>> getSections(String quizId) async {
+    final snapshot = await _db
+        .collection('quizzes')
+        .doc(quizId)
+        .collection('sections')
+        .get();
 
-    for (var sec in sectionSnapshot.docs) {
-      final questions = await getQuestions(quizId, sec.id);
-      sections.add(
-        Section.fromMap(sec.data(), sec.id, questions),
-      );
-    }
-
-    return sections;
+    return snapshot.docs.map((doc) => doc.id).toList();
   }
 
+  /// 🔹 Lấy danh sách câu hỏi của 1 section
   Future<List<Question>> getQuestions(String quizId, String sectionId) async {
-    final questionSnapshot = await _db
+    final snapshot = await _db
         .collection('quizzes')
         .doc(quizId)
         .collection('sections')
@@ -45,34 +35,48 @@ class FirestoreService {
         .collection('questions')
         .get();
 
-    return questionSnapshot.docs
+    return snapshot.docs
         .map((doc) => Question.fromMap(doc.data(), doc.id))
         .toList();
   }
 
+  /// 🔹 Lưu tiến độ làm bài của người dùng
   Future<void> saveUserProgress(
-      String userId, String quizId, String sectionId, SectionProgress progress) async {
+      String userId,
+      String quizId,
+      String sectionId,
+      SectionProgress progress,
+      ) async {
     await _db
-        .collection('user_progress')
+        .collection('users')
         .doc(userId)
-        .collection('quizzes')
+        .collection('progress')
         .doc(quizId)
         .set({
-      'sections.$sectionId': progress.toMap(),
+      sectionId: progress.toMap(),
     }, SetOptions(merge: true));
   }
 
+  /// 🔹 Lấy tiến độ của người dùng trong 1 đề thi
   Future<Map<String, SectionProgress>> getUserProgress(
-      String userId, String quizId) async {
-    final doc =
-    await _db.collection('user_progress').doc(userId).collection('quizzes').doc(quizId).get();
+      String userId,
+      String quizId,
+      ) async {
+    final snapshot = await _db
+        .collection('users')
+        .doc(userId)
+        .collection('progress')
+        .doc(quizId)
+        .get();
 
-    if (!doc.exists) return {};
+    if (!snapshot.exists) return {};
 
-    final data = doc.data()!;
-    final sections = (data['sections'] ?? {}) as Map<String, dynamic>;
-
-    return sections.map((key, value) =>
-        MapEntry(key, SectionProgress.fromMap(value as Map<String, dynamic>)));
+    final data = snapshot.data()!;
+    return data.map((key, value) {
+      return MapEntry(
+        key,
+        SectionProgress.fromMap(value),
+      );
+    });
   }
 }
